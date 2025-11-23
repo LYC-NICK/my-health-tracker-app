@@ -20,7 +20,6 @@ const supabase = createClient(supabaseUrl, supabaseAnonKey);
 // Gemini AI 客户端创建
 const geminiApiKey = process.env.NEXT_PUBLIC_GEMINI_API_KEY || ''; // 👈 使用新的公共前缀
 const ai = new GoogleGenAI({ apiKey: geminiApiKey }); 
-
 // 定义数据类型
 interface WeightLog {
   id: number;
@@ -154,7 +153,13 @@ export default function Home() {
             contents: prompt,
         });
         
-        setAiAdvice(response.text);
+       
+        // 🚨 修复点：在设置状态之前，检查 response.text 是否存在
+        if (response.text) {
+            setAiAdvice(response.text); // 这行是 Vercel 编译报错的地方
+        } else {
+            setAiAdvice("AI顾问未能提供建议，请检查网络或重试。"); // 提供一个默认错误信息
+        }
 
     } catch (error) {
         console.error('AI API 调用错误:', error);
