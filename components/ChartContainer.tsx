@@ -1,5 +1,3 @@
-// components/ChartContainer.tsx
-
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -27,11 +25,10 @@ export default function ChartContainer({ children, width, height }: ChartContain
         );
     }
 
-    // 最终、最终的修复点：
+    // 最终修复点：
     // 我们强制将 width 视为 Recharts 期望的 string 类型。
     // 如果你传入的是数字，Recharts 内部会自动处理。
     // 我们使用 @ts-ignore 来抑制 Recharts 自身的复杂类型检查。
-    // 请注意：在真正的生产代码中，应尽量避免使用 @ts-ignore。
     return (
         // @ts-ignore
         <ResponsiveContainer width={width as string} height={height}>
